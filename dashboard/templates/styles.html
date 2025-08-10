@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Explore Our Tattoo Styles – Inkspire Studio{% endblock %}
+
+{% block extra_head %}
+  <script defer src="{% static 'js/booking.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+         <header class="page-header-new">
+      <div class="header-bg"></div>
+      <div class="header-content">
+        <h1>Explore Our Tattoo Styles</h1>
+        <div class="divider"></div>
+        <p>Find the perfect style that suits your personality and story.</p>
+      </div>
+    </header>
+
+  <!-- Styles Section -->
+  <section class="section styles-section">
+    <div class="container">
+      <div class="styles-grid">
+        
+        {% for style in styles %}
+          <article class="style-card">
+            <img src="{{ style.image.url }}" alt="{{ style.name }}">
+            <h3>{{ style.name }}</h3>
+            <p>{{ style.description }}</p>
+          </article>
+        {% empty %}
+          <p>No tattoo styles available at the moment.</p>
+        {% endfor %}
+        
+      </div>
+    </div>
+  </section>
+{% endblock %}

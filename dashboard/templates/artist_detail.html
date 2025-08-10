@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Book Your Session – Inkspire Studio{% endblock %}
+
+{% block extra_head %}
+  <script defer src="{% static 'js/booking.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <!-- Page Header -->
+    <header class="page-header-new">
+        <div class="header-bg"></div>
+        <div class="header-content">
+            <h1>{{ artist.name }}</h1>
+            <div class="divider"></div>
+            <p>{{ artist.bio|truncatewords:20 }}</p>
+        </div>
+    </header>
+
+    <!-- Artist Bio -->
+    <section class="section artist-bio">
+        <div class="container">
+            <div class="bio-content">
+                <img src="{{ artist.image.url }}" alt="{{ artist.name }}" class="bio-image" />
+                <div class="bio-text">
+                    <h2>About {{ artist.name }}</h2>
+                    <p>{{ artist.bio }}</p>
+                    <div class="social-icons">
+                        {% if artist.instagram %}
+                            <a href="{{ artist.instagram }}" target="_blank"><i class="fab fa-instagram"></i></a>
+                        {% endif %}
+                        {% if artist.facebook %}
+                            <a href="{{ artist.facebook }}" target="_blank"><i class="fab fa-facebook"></i></a>
+                        {% endif %}
+                        {% if artist.pinterest %}
+                            <a href="{{ artist.pinterest }}" target="_blank"><i class="fab fa-pinterest"></i></a>
+                        {% endif %}
+                        {% if artist.tiktok %}
+                            <a href="{{ artist.tiktok }}" target="_blank"><i class="fab fa-tiktok"></i></a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    
+
+    <!-- Tattoo Showcase -->
+    <!-- <section class="section tattoo-gallery">
+        <div class="container">
+            <h2>{{ artist.name }}'s Tattoo Work</h2>
+            <div class="gallery-grid">
+                {% for tattoo in artist.tattoos.all %}
+                    <img src="{{ tattoo.image.url }}" alt="Tattoo {{ forloop.counter }}" />
+                {% empty %}
+                    <p>No tattoo works added yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section> -->
+
+
+
+
+
+    <!-- Back Button -->
+    <div class="back-button">
+        <a href="{% url 'artists' %}" class="btn">← Back to All Artists</a>
+    </div>
+{% endblock %}

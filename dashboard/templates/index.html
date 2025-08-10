@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Inkspire Studio{% endblock %}
+
+{% block extra_head %}
+  <script defer src="{% static 'js/booking.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>Inkspire Studio</h1>
+    <p>Custom, Clean, Timeless Ink by Award-Winning Artists</p>
+    <div class="cta-buttons">
+      <a href="{% url 'booking' %}" class="btn btn-primary">Book Now</a>
+      <a href="{% url 'gallery' %}" class="btn btn-outline">View Gallery</a>
+    </div>
+  </div>
+</section>
+
+<!-- =================== ARTISTS SECTION =================== -->
+<section class="section" id="artists">
+  <div class="container">
+    <h2 class="section-title">Our Artists</h2>
+    <p class="section-subtitle">Award-winning artists bringing your ideas to life.</p>
+    <div class="artists-grid">
+      {% for artist in artists %}
+        <div class="artist-card">
+          <div class="artist-image">
+            <img src="{{ artist.image.url }}" alt="{{ artist.name }}">
+          </div>
+          <h3 class="artist-name">{{ artist.name }}</h3>
+          <p class="artist-specialty">{{ artist.bio|truncatewords:15 }}</p>
+          <div class="social-icons">
+            {% if artist.instagram %}
+            <a href="{{ artist.instagram }}" target="_blank"><i class="fab fa-instagram"></i></a>
+            {% endif %}
+            {% if artist.tiktok %}
+            <a href="{{ artist.tiktok }}" target="_blank"><i class="fab fa-tiktok"></i></a>
+            {% endif %}
+          </div>
+          <a href="{% url 'artist_detail' artist.id %}" class="btn btn-outline">View Profile</a>
+        </div>
+      {% empty %}
+        <p>No artists added yet. Check back soon!</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- =================== STYLES SECTION =================== -->
+<section class="section styles-section" id="styles">
+  <div class="container">
+    <h2 class="section-title">Tattoo Styles</h2>
+    <p class="section-subtitle">Find the perfect style that suits your personality and story.</p>
+    <div class="styles-grid">
+      {% for style in styles %}
+        <article class="style-card">
+          <img src="{{ style.image.url }}" alt="{{ style.name }}">
+          <h3>{{ style.name }}</h3>
+          <p>{{ style.description|truncatewords:20 }}</p>
+        </article>
+      {% empty %}
+        <p>No tattoo styles available at the moment.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- =================== GALLERY SECTION =================== -->
+<section class="section" id="gallery">
+  <h2 class="section-title">Gallery</h2>
+  <p class="section-subtitle">Explore our portfolio of exceptional work.</p>
+
+  <div class="gallery-filters">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="blackgrey">Black & Grey</button>
+    <button class="filter-btn" data-filter="color">Color</button>
+    <button class="filter-btn" data-filter="lettering">Lettering</button>
+    <button class="filter-btn" data-filter="sleeve">Sleeve</button>
+    <button class="filter-btn" data-filter="small">Small Tattoos</button>
+  </div>
+
+  <div class="gallery-grid">
+    {% for img in gallery_images %}
+      <div class="gallery-item fade-in" data-category="{{ img.category }}">
+        <img src="{{ img.image.url }}" alt="{{ img.caption|default:'Tattoo Image' }}">
+      </div>
+    {% empty %}
+      <p>No images found in the gallery.</p>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- =================== TESTIMONIALS SECTION =================== -->
+<section class="section" id="testimonials">
+  <h2 class="section-title">What Our Clients Say</h2>
+  <div class="testimonial-slider">
+    {% for t in testimonials %}
+      <div class="testimonial">
+        <div class="stars">
+          {% for i in "12345"|slice:":t.stars" %}★{% endfor %}
+        </div>
+        <p class="testimonial-text">"{{ t.text }}"</p>
+        <p class="testimonial-author">— {{ t.author }}</p>
+      </div>
+    {% empty %}
+      <p>No testimonials yet.</p>
+    {% endfor %}
+  </div>
+</section>
+
+
+<!-- =================== BOOKING FORM SECTION =================== -->
+<section class="section" id="home-booking">
+  <div class="container">
+    <h2 class="section-title">Book Your Session</h2>
+    <p class="section-subtitle">
+      Ready to get started? Fill out the form below and we'll get back to you within 24 hours to schedule your consultation.
+    </p>
+
+    <form method="POST" enctype="multipart/form-data" class="booking-form fade-in" id="bookingForm" novalidate>
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+
+      <div class="form-group">
+        <label for="id_name">Full Name <span>*</span></label>
+        {{ form.name }}
+        <small class="error-message" style="color:red; display:none;">Please enter your name</small>
+      </div>
+
+      <div class="form-group">
+        <label for="id_email">Email Address <span>*</span></label>
+        {{ form.email }}
+        <small class="error-message" style="color:red; display:none;">Enter a valid email address</small>
+      </div>
+
+      <div class="form-group">
+        <label for="id_phone">Phone Number</label>
+        {{ form.phone }}
+        <small class="error-message" style="color:red; display:none;">Enter a valid phone number</small>
+      </div>
+
+      <div class="form-group">
+        <label for="id_artist">Preferred Artist</label>
+        {{ form.artist }}
+      </div>
+
+      <div class="form-group">
+        <label for="id_placement">Tattoo Placement</label>
+        {{ form.placement }}
+      </div>
+
+      <div class="form-group">
+        <label for="id_description">Tattoo Description <span>*</span></label>
+        {{ form.description }}
+        <small class="error-message" style="color:red; display:none;">Please describe your tattoo idea</small>
+      </div>
+
+      <div class="form-group">
+        <label for="id_reference">Upload Reference Images</label>
+        {{ form.reference }}
+      </div>
+
+      <div class="form-group">
+        <label for="id_date">Preferred Date</label>
+        {{ form.date }}
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
+        Reserve Your Ink
+      </button>
+    </form>
+  </div>
+</section>
+
+{% endblock %}

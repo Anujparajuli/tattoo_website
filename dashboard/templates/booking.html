@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Book Your Session – Inkspire Studio{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<header class="page-header-new">
+  <div class="header-bg"></div>
+  <div class="header-content">
+    <h1>Book Your Session</h1>
+    <div class="divider"></div>
+    <p>Ready to get started? Fill out the form below and we'll get back to you within 24 hours to schedule your consultation.</p>
+  </div>
+</header>
+
+<!-- Booking Form Section -->
+<section class="section">
+  <div class="container">
+    <form class="booking-form" id="bookingForm" method="post" enctype="multipart/form-data" novalidate>
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label for="name">Full Name *</label>
+        <input type="text" id="name" name="name" required />
+        <small class="error-message"></small>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address *</label>
+        <input type="email" id="email" name="email" required />
+        <small class="error-message"></small>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" />
+      </div>
+
+      <div class="form-group">
+        <label for="artist">Preferred Artist</label>
+        <select id="artist" name="artist">
+          <option value="">No Preference</option>
+          <option value="sarah">Sarah Chen</option>
+          <option value="marcus">Marcus Rodriguez</option>
+          <option value="yuki">Yuki Tanaka</option>
+          <option value="alex">Alex Morgan</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="placement">Tattoo Placement</label>
+        <input type="text" id="placement" name="placement" placeholder="e.g., Upper arm, back, leg" />
+      </div>
+
+      <div class="form-group">
+        <label for="description">Tattoo Description *</label>
+        <textarea id="description" name="description" required placeholder="Please describe your tattoo idea in detail..."></textarea>
+        <small class="error-message"></small>
+      </div>
+
+      <div class="form-group">
+        <label for="reference">Upload Reference Images</label>
+        <div class="file-input-wrapper">
+          <input type="file" id="reference" name="reference" multiple accept="image/*" />
+          <label for="reference" class="file-input-label">
+            <i class="fas fa-cloud-upload-alt"></i> Click to upload reference images
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="date">Preferred Date</label>
+        <input type="date" id="date" name="date" />
+      </div>
+
+      <!-- ✅ Added name attribute so Django receives it -->
+      <input type="hidden" id="termsAccepted" name="termsAccepted" value="false" />
+
+      <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
+        Reserve Your Ink
+      </button>
+    </form>
+
+    <!-- {% if success %}
+      <div style="margin-top:30px; color: var(--gold); font-weight:600; text-align:center;">
+        Thank you! Your booking request has been received. We'll contact you soon.
+      </div>
+    {% endif %} -->
+  </div>
+</section>
+
+<!-- Terms & Conditions Modal -->
+<div id="termsModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc">
+  <div class="modal-content">
+    <span class="close-btn" id="closeTerms" aria-label="Close Terms & Conditions">&times;</span>
+    <h2 id="modalTitle" style="color: var(--gold); text-align:center; margin-top: 0;">Terms and Conditions</h2>
+    <div class="modal-text" id="modalDesc">
+      <p><strong>Welcome to Inkspire Studio.</strong> Before booking your tattoo session with us, please read these Terms and Conditions carefully. Your booking indicates acceptance of these terms.</p>
+      <p><strong>1. Consultations & Design</strong><br>
+        We provide a consultation to discuss your tattoo idea...</p>
+      <p><strong>2. Health & Safety</strong><br>
+        Please disclose any medical conditions or allergies before your session...</p>
+      <p><strong>3. Cancellations & Rescheduling</strong><br>
+        Please provide at least 48 hours' notice...</p>
+      <p><strong>4. Deposits & Payments</strong><br>
+        A non-refundable deposit is required...</p>
+      <p><strong>5. Aftercare</strong><br>
+        Proper aftercare is essential...</p>
+      <p><strong>6. Liability</strong><br>
+        Inkspire Studio is not liable...</p>
+      <p><strong>7. Intellectual Property</strong><br>
+        Tattoo designs created for you...</p>
+      <p><strong>8. Age Restrictions</strong><br>
+        Clients must be at least 18 years old...</p>
+    </div>
+
+    <!-- <label class="agree-section">
+      <input type="checkbox" id="agreeCheckbox" />
+      I have read and agree to the Terms and Conditions.
+    </label> -->
+
+    <button id="acceptBtn" class="btn-accept" disabled>Accept</button>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/booking.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Tattoo Gallery – Inkspire Studio{% endblock %}
+
+{% block extra_head %}
+  <script defer src="{% static 'js/booking.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+       <!-- Gallery Section -->
+    <section class="section" id="gallery">
+        <header class="page-header-new">
+            <div class="header-bg"></div>
+            <div class="header-content">
+                <h1>Tattoo Gallery</h1>
+                <div class="divider"></div>
+                <p>Explore our portfolio of exceptional work, showcasing the artistry and skill of our talented team.</p>
+            </div>
+        </header>
+
+        
+
+            <div class="gallery-filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="blackgrey">Black & Grey</button>
+                <button class="filter-btn" data-filter="color">Color</button>
+                <button class="filter-btn" data-filter="lettering">Lettering</button>
+                <button class="filter-btn" data-filter="sleeve">Sleeve</button>
+                <button class="filter-btn" data-filter="small">Small Tattoos</button>
+            </div>
+
+            <div class="gallery-grid">
+                {% for img in images %}
+                    <div class="gallery-item fade-in" data-category="{{ img.category }}">
+                        <img src="{{ img.image.url }}" alt="{{ img.caption|default:'Tattoo Image' }}">
+                    </div>
+                {% empty %}
+                    <p>No images found in the gallery.</p>
+                {% endfor %}
+            </div>
+        
+    </section>
+{% endblock %}

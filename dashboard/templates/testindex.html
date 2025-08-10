@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Inkspire Studio{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>Inkspire Studio</h1>
+    <p>Custom, Clean, Timeless Ink by Award-Winning Artists</p>
+    <div class="cta-buttons">
+      <a href="{% url 'booking' %}" class="btn btn-primary">Book Now</a>
+      <a href="{% url 'gallery' %}" class="btn btn-outline">View Gallery</a>
+    </div>
+  </div>
+</section>
+
+<!-- Artists Section -->
+<section class="section" id="artists">
+  <h2 class="section-title">Our Artists</h2>
+  <p class="section-subtitle">Meet the talent behind the art</p>
+  <div class="artists-grid">
+    {% for artist in artists %}
+      <div class="artist-card">
+        <img src="{{ artist.image.url }}" alt="{{ artist.name }}">
+        <h3>{{ artist.name }}</h3>
+        <p>{{ artist.bio|truncatewords:15 }}</p>
+      </div>
+    {% empty %}
+      <p>No featured artists yet.</p>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Styles Section -->
+<section class="section" id="styles">
+  <h2 class="section-title">Tattoo Styles</h2>
+  <p class="section-subtitle">Explore the range of art we offer</p>
+  <div class="styles-grid">
+    {% for style in styles %}
+      <div class="style-card">
+        <img src="{{ style.image.url }}" alt="{{ style.name }}">
+        <h3>{{ style.name }}</h3>
+        <p>{{ style.description|truncatewords:15 }}</p>
+      </div>
+    {% empty %}
+      <p>No featured styles yet.</p>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Gallery Section -->
+<section class="section" id="gallery">
+  <h2 class="section-title">Gallery</h2>
+  <p class="section-subtitle">A selection of our latest work</p>
+  <div class="gallery-filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="blackgrey">Black & Grey</button>
+                <button class="filter-btn" data-filter="color">Color</button>
+                <button class="filter-btn" data-filter="lettering">Lettering</button>
+                <button class="filter-btn" data-filter="sleeve">Sleeve</button>
+                <button class="filter-btn" data-filter="small">Small Tattoos</button>
+            </div>
+
+            <div class="gallery-grid">
+                {% for img in images %}
+                    <div class="gallery-item fade-in" data-category="{{ img.category }}">
+                        <img src="{{ img.image.url }}" alt="{{ img.caption|default:'Tattoo Image' }}">
+                    </div>
+                {% empty %}
+                    <p>No images found in the gallery.</p>
+                {% endfor %}
+            </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="section" id="testimonials">
+  <h2 class="section-title">What Our Clients Say</h2>
+  <div class="testimonial-slider">
+    {% for t in testimonials %}
+      <div class="testimonial">
+        <div class="stars">
+          {% for i in "12345"|slice:":t.stars" %}★{% endfor %}
+        </div>
+        <p class="testimonial-text">"{{ t.text }}"</p>
+        <p class="testimonial-author">— {{ t.author }}</p>
+      </div>
+    {% empty %}
+      <p>No featured testimonials yet.</p>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- What Makes Us Different Section -->
+    <!-- What Makes Us Different Section -->
+    <section class="section" id="services" style="background: var(--secondary-black);">
+        <div class="container">
+            <h2 class="section-title">What Makes Us Different</h2>
+            <p class="section-subtitle">
+                We're committed to providing the highest quality tattoo experience with uncompromising standards.
+            </p>
+            
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-virus"></i>
+                    </div>
+                    <h3 class="feature-title">Fully Sterilized Equipment</h3>
+                    <p class="feature-description">
+                        Hospital-grade sterilization and single-use needles ensure your safety and peace of mind during every session.
+                    </p>
+                </div>
+                
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h3 class="feature-title">Award-Winning Artists</h3>
+                    <p class="feature-description">
+                        Our internationally recognized artists have won numerous awards and continue to push the boundaries of tattoo artistry.
+                    </p>
+                </div>
+                
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3 class="feature-title">Personalized Consultations</h3>
+                    <p class="feature-description">
+                        Every tattoo begins with a detailed consultation to understand your vision and create the perfect custom design.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- Homepage Booking Form -->
+<section class="section" id="home-booking">
+  <div class="container">
+    <h2 class="section-title">Book Your Session</h2>
+    <p class="section-subtitle">
+      Ready to get started? Fill out the form below and we'll get back to you within 24 hours to schedule your consultation.
+    </p>
+
+    <div class="container">
+        <form method="POST" enctype="multipart/form-data" class="booking-form fade-in" id="bookingForm" novalidate>
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <div class="form-group">
+            <label for="id_name">Full Name <span>*</span></label>
+            {{ form.name }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_email">Email Address <span>*</span></label>
+            {{ form.email }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_phone">Phone Number</label>
+            {{ form.phone }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_artist">Preferred Artist</label>
+            {{ form.artist }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_placement">Tattoo Placement</label>
+            {{ form.placement }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_description">Tattoo Description <span>*</span></label>
+            {{ form.description }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_reference">Upload Reference Images</label>
+            {{ form.reference }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_date">Preferred Date</label>
+            {{ form.date }}
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
+            Reserve Your Ink
+        </button>
+        </form>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

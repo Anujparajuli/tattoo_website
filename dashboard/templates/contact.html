@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact Us – Inkspire Studio{% endblock %}
+
+{% block content %}
+<header class="page-header-new">
+  <div class="header-bg"></div>
+  <div class="header-content">
+    <h1>Contact Us</h1>
+    <div class="divider"></div>
+    <p>Get in touch or find our studio information below.</p>
+  </div>
+</header>
+
+<section class="section contact-section">
+  <div class="container contact-container">
+
+    <form method="POST" class="contact-form">
+      {% csrf_token %}
+      <h2>Send a Message</h2>
+
+      {{ form.non_field_errors }}
+
+      <div class="form-group">
+        <label for="id_name">Full Name *</label>
+        {{ form.name }}
+      </div>
+
+      <div class="form-group">
+        <label for="id_email">Email Address *</label>
+        {{ form.email }}
+      </div>
+
+      <div class="form-group">
+        <label for="id_subject">Subject</label>
+        {{ form.subject }}
+      </div>
+
+      <div class="form-group">
+        <label for="id_message">Message *</label>
+        {{ form.message }}
+      </div>
+
+      <button type="submit" class="btn btn-primary">Send Message</button>
+    </form>
+
+    {% if success %}
+      <script>
+        alert("✅ Your message has been sent successfully!");
+      </script>
+    {% endif %}
+
+    <div class="contact-info">
+      <h2>Studio Information</h2>
+      <p><strong>Address:</strong> 145 Tattoo Lane, Artisan Block, Thamel, Kathmandu, Nepal 44600</p>
+      <p><strong>Phone:</strong> +977 981-1234567</p>
+      <p><strong>Email:</strong> hello@inkspirestudio.com</p>
+      <p><strong>Opening Hours:</strong><br />
+        Mon - Thu: 12pm - 8pm<br />
+        Fri - Sat: 12pm - 10pm<br />
+        Sun: 12pm - 6pm<br />
+        Consultations by appointment
+      </p>
+      <div class="footer-social">
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-tiktok"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+      </div>
+    </div>
+
+  </div>
+</section>
+{% endblock %}
