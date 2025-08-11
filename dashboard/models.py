@@ -88,10 +88,15 @@ class Booking(models.Model):
     def __str__(self):
         return f"{self.name} - {self.email}"
 
+from django.core.validators import MinValueValidator, MaxValueValidator
+
 class Testimonial(models.Model):
     author = models.CharField(max_length=100)
     text = models.TextField()
-    stars = models.PositiveSmallIntegerField(default=5)
+    stars = models.PositiveSmallIntegerField(
+        default=5,
+        validators=[MinValueValidator(1), MaxValueValidator(5)]
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     show_on_homepage = models.BooleanField(default=False)
 

@@ -96,85 +96,84 @@
 </section>
 
 <!-- =================== TESTIMONIALS SECTION =================== -->
-<section class="section" id="testimonials">
+<section class="section testimonials-container" id="testimonials">
   <h2 class="section-title">What Our Clients Say</h2>
-  <div class="testimonial-slider">
-    {% for t in testimonials %}
-      <div class="testimonial">
-        <div class="stars">
-          {% for i in "12345"|slice:":t.stars" %}★{% endfor %}
+
+  {% if testimonials %}
+    <div class="testimonial-slider">
+      {% for t in testimonials %}
+        <div class="testimonial {% if forloop.first %}active{% endif %}">
+          <div class="stars">
+            {% for i in "12345" %}
+              {% if forloop.counter <= t.stars %}
+                ★
+              {% else %}
+                ☆
+              {% endif %}
+            {% endfor %}
+          </div>
+          <p class="testimonial-text">"{{ t.text }}"</p>
+          <p class="testimonial-author">— {{ t.author }}</p>
         </div>
-        <p class="testimonial-text">"{{ t.text }}"</p>
-        <p class="testimonial-author">— {{ t.author }}</p>
-      </div>
-    {% empty %}
-      <p>No testimonials yet.</p>
-    {% endfor %}
-  </div>
-</section>
+      {% endfor %}
 
-
-<!-- =================== BOOKING FORM SECTION =================== -->
-<section class="section" id="home-booking">
-  <div class="container">
-    <h2 class="section-title">Book Your Session</h2>
-    <p class="section-subtitle">
-      Ready to get started? Fill out the form below and we'll get back to you within 24 hours to schedule your consultation.
-    </p>
-
-    <form method="POST" enctype="multipart/form-data" class="booking-form fade-in" id="bookingForm" novalidate>
-      {% csrf_token %}
-      {{ form.non_field_errors }}
-
-      <div class="form-group">
-        <label for="id_name">Full Name <span>*</span></label>
-        {{ form.name }}
-        <small class="error-message" style="color:red; display:none;">Please enter your name</small>
-      </div>
-
-      <div class="form-group">
-        <label for="id_email">Email Address <span>*</span></label>
-        {{ form.email }}
-        <small class="error-message" style="color:red; display:none;">Enter a valid email address</small>
-      </div>
-
-      <div class="form-group">
-        <label for="id_phone">Phone Number</label>
-        {{ form.phone }}
-        <small class="error-message" style="color:red; display:none;">Enter a valid phone number</small>
-      </div>
-
-      <div class="form-group">
-        <label for="id_artist">Preferred Artist</label>
-        {{ form.artist }}
-      </div>
-
-      <div class="form-group">
-        <label for="id_placement">Tattoo Placement</label>
-        {{ form.placement }}
-      </div>
-
-      <div class="form-group">
-        <label for="id_description">Tattoo Description <span>*</span></label>
-        {{ form.description }}
-        <small class="error-message" style="color:red; display:none;">Please describe your tattoo idea</small>
-      </div>
-
-      <div class="form-group">
-        <label for="id_reference">Upload Reference Images</label>
-        {{ form.reference }}
-      </div>
-
-      <div class="form-group">
-        <label for="id_date">Preferred Date</label>
-        {{ form.date }}
-      </div>
-
-      <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
-        Reserve Your Ink
+      <!-- Navigation buttons -->
+      <button class="testimonial-nav-btn prev-btn" aria-label="Previous testimonial">
+        <!-- Left arrow SVG or just < -->
+        ‹
       </button>
+      <button class="testimonial-nav-btn next-btn" aria-label="Next testimonial">
+        <!-- Right arrow SVG or just > -->
+        ›
+      </button>
+    </div>
+  {% else %}
+    <p class="no-testimonials">No testimonials yet. Be the first to share your experience!</p>
+  {% endif %}
+</section>
+
+
+
+
+
+<!-- =================== CONTACT SECTION =================== -->
+<section class="section contact-section" id="contact">
+  <div class="container contact-container">
+
+    <form method="POST" class="contact-form">
+      {% csrf_token %}
+      <input type="hidden" name="contact_submit" value="1">
+
+      <h2>Send a Message</h2>
+
+      {{ contact_form.non_field_errors }}
+
+      <div class="form-group">
+        <label for="id_name">Full Name *</label>
+        {{ contact_form.name }}
+      </div>
+
+      <div class="form-group">
+        <label for="id_email">Email Address *</label>
+        {{ contact_form.email }}
+      </div>
+
+      <div class="form-group">
+        <label for="id_subject">Subject</label>
+        {{ contact_form.subject }}
+      </div>
+
+      <div class="form-group">
+        <label for="id_message">Message *</label>
+        {{ contact_form.message }}
+      </div>
+
+      <button type="submit" class="btn btn-primary">Send Message</button>
     </form>
+
   </div>
 </section>
+
+
 
 {% endblock %}

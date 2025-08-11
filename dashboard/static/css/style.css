@@ -120,10 +120,6 @@ body {
 
 /* Responsive navbar */
 @media (max-width: 768px) {
-    .mobile-menu {
-        display: flex;
-    }
-
     .nav-links {
         position: absolute;
         top: 70px;
@@ -131,15 +127,26 @@ body {
         background: rgba(10, 10, 10, 0.95);
         flex-direction: column;
         gap: 15px;
-        width: 200px;
+        width: 100%;
+        max-width: 250px;
         padding: 20px;
-        display: none;
+        transform: translateX(100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: transform 0.3s ease, opacity 0.3s ease;
     }
 
     .nav-links.active {
+        transform: translateX(0);
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .mobile-menu {
         display: flex;
     }
 }
+
 
 
 /* Fix "Book Now" button inside pricing */
@@ -274,8 +281,24 @@ body {
     border-color: var(--gold);
 }
 
+.artists-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
 
-/* Artist Image */
+.artist-card {
+    background: var(--secondary-black);
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.artist-card:hover {
+    transform: translateY(-5px);
+}
+
 .artist-image {
     width: 120px;
     height: 120px;
@@ -295,10 +318,8 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
 }
 
-/* Artist Info */
 .artist-name {
     font-size: 1.5rem;
     font-weight: 700;
@@ -312,7 +333,6 @@ body {
     margin-bottom: 20px;
 }
 
-/* Social Icons */
 .social-icons {
     display: flex;
     justify-content: center;
@@ -332,14 +352,23 @@ body {
     text-shadow: 0 0 8px var(--gold-glow);
 }
 
-/* Button inside artist card */
 .artist-card .btn-outline {
     border: 2px solid white;
     color: white;
     font-size: 0.95rem;
-    padding: 10px 25px;
-    transition: all 0.3s ease;
+    padding: 10px 20px;
     display: inline-block;
+    word-break: break-word;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+    .artist-card .btn-outline {
+        width: 100%;
+        max-width: 100%;
+        padding: 10px;
+    }
 }
 
 .artist-card .btn-outline:hover {
@@ -348,18 +377,19 @@ body {
     transform: translateY(-2px);
 }
 
-/* Responsive */
+/* Mobile tweaks */
 @media (max-width: 768px) {
-    .artists-grid {
-        gap: 20px;
+    .artist-name {
+        font-size: 1.2rem;
+    }
+    .artist-specialty {
+        font-size: 0.9rem;
     }
     .artist-card {
         padding: 15px;
     }
-    .artist-name {
-        font-size: 1.2rem;
-    }
 }
+
 
         /* Signature Styles Section */
 /* Styles Section with Background */
@@ -708,84 +738,84 @@ body {
     }
 }
 
-        /* Testimonials */
-        .testimonials-container {
-            background: #2d2d2d;
-            border-radius: 20px;
-            padding: 60px 40px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
+/* Testimonials */
+.testimonials-container {
+    background: #2d2d2d;
+    border-radius: 20px;
+    padding: 60px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
 
-        .testimonial {
-            max-width: 800px;
-            margin: 0 auto;
-        }
+.testimonial {
+    display: none;
+    max-width: 800px;
+    margin: 0 auto 40px auto;
+    transition: opacity 0.5s ease;
+}
 
-        .testimonial-text {
-            font-size: 1.3rem;
-            font-style: italic;
-            margin-bottom: 30px;
-            color: var(--white);
-            line-height: 1.8;
-        }
+.testimonial.active {
+    display: block;
+}
 
-        .testimonial-author {
-            font-size: 1.1rem;
-            color: var(--gold);
-            font-weight: 600;
-        }
+.testimonial-text {
+    font-size: 1.3rem;
+    font-style: italic;
+    margin-bottom: 30px;
+    color: var(--white);
+    line-height: 1.8;
+}
 
-        .stars {
-            color: var(--gold);
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-        }
-        .testimonial {
-        display: none;
-        max-width: 800px;
-        margin: 0 auto 40px auto;
-        transition: opacity 0.5s ease;
-        }
+.testimonial-author {
+    font-size: 1.1rem;
+    color: var(--gold);
+    font-weight: 600;
+}
 
-        .testimonial.active {
-        display: block;
-        }
-
-
+.stars {
+    color: var(--gold);
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    letter-spacing: 3px; /* space stars nicely */
+}
 
 .testimonial-nav-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(220, 38, 38, 0.15);
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(220, 38, 38, 0.15);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    font-size: 1.5rem;
+    color: var(--crimson);
+    user-select: none;
 }
 
 .testimonial-nav-btn:hover {
-  background: var(--crimson);
-}
-
-.testimonial-nav-btn:hover svg {
-  stroke: var(--white);
+    background: var(--crimson);
+    color: var(--white);
 }
 
 .prev-btn {
-  left: 10px;
+    left: 10px;
 }
 
 .next-btn {
-  right: 10px;
+    right: 10px;
+}
+
+.no-testimonials {
+    color: #888;
+    font-style: italic;
 }
 
 

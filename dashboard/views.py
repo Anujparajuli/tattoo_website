@@ -16,17 +16,28 @@ from django.contrib import messages
 
 
 
+from .forms import BookingForm, ContactForm
+
 def home(request):
+    booking_form = BookingForm()
+    contact_form = ContactForm()
+
     if request.method == 'POST':
-        booking_form = BookingForm(request.POST, request.FILES)  # ✅ include request.FILES
-        if booking_form.is_valid():
-            booking_form.save()
-            messages.success(request, 'Your booking has been submitted successfully!')
-            return redirect('home')
-        else:
-            messages.error(request, 'There was an error with your booking. Please check the form.')
-    else:
-        booking_form = BookingForm()
+        if 'booking_submit' in request.POST:  # Booking form submitted
+            booking_form = BookingForm(request.POST, request.FILES)
+            if booking_form.is_valid():
+                booking_form.save()
+                messages.success(request, 'Your booking has been submitted successfully!')
+                return redirect('home')
+            else:
+                messages.error(request, 'There was an error with your booking. Please check the form.')
+        
+        elif 'contact_submit' in request.POST:  # Contact form submitted
+            contact_form = ContactForm(request.POST)
+            if contact_form.is_valid():
+                contact_form.save()
+                messages.success(request, 'Your message has been sent successfully!')
+                return redirect('home')
 
     artists = Artist.objects.filter(show_on_homepage=True)[:8]
     styles = TattooStyle.objects.filter(show_on_homepage=True)[:8]
@@ -39,6 +50,7 @@ def home(request):
         'gallery_images': gallery_images,
         'testimonials': testimonials,
         'form': booking_form,
+        'contact_form': contact_form
     })
 
 
