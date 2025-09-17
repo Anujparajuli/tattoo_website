@@ -1,52 +1,42 @@
 {% extends 'base.html' %}
-
 {% load static %}
 
 {% block title %}Meet Our Artists – Inkspire Studio{% endblock %}
 
-{% block extra_head %}
-  <script defer src="{% static 'js/booking.js' %}"></script>
-{% endblock %}
-
 {% block content %}
-      <!-- Page Header -->
-    <header class="page-header-new">
-        <div class="header-bg"></div>
-        <div class="header-content">
-            <h1>Meet Our Artists</h1>
-            <div class="divider"></div>
-            <p>Inkspire Studio is home to talented and passionate tattoo artists.</p>
-        </div>
-    </header>
+<header class="page-header-new">
+    <div class="header-bg"></div>
+    <div class="header-content">
+        <h1>Meet Our Artists</h1>
+        <div class="divider"></div>
+        <p>Inkspire Studio is home to talented and passionate tattoo artists.</p>
+    </div>
+</header>
 
-   <!-- Artists Section -->
-    <section class="section" id="artists">
-        <div class="container">
-            <!-- <h2 class="section-title">Our Artists</h2>
-            <p class="section-subtitle">Award-winning artists bringing your ideas to life.</p> -->
-            <div class="artists-grid">
-                
-                {% for artist in artists %}
-                <div class="artist-card">
-                    <div class="artist-image">
-                        <img src="{{ artist.image.url }}" alt="{{ artist.name }}">
-                    </div>
-                    <h3 class="artist-name">{{ artist.name }}</h3>
-                    <p class="artist-specialty">{{ artist.bio|truncatewords:15 }}</p>
-                    <div class="social-icons">
-                        {% if artist.instagram %}
-                        <a href="{{ artist.instagram }}" target="_blank"><i class="fab fa-instagram"></i></a>
-                        {% endif %}
-                        {% if artist.tiktok %}
-                        <a href="{{ artist.tiktok }}" target="_blank"><i class="fab fa-tiktok"></i></a>
-                        {% endif %}
-                    </div>
-                    <a href="{% url 'artist_detail' artist.id %}" class="btn btn-outline">View Profile</a>
+<section class="section" id="artists">
+    <div class="container">
+        <div class="artists-grid">
+            {% for artist in artists %}
+            <div class="artist-card">
+                <div class="artist-image">
+                    <img src="{{ artist.image.url }}" alt="{{ artist.name }}">
                 </div>
-                {% empty %}
-                <p>No artists added yet. Check back soon!</p>
-                {% endfor %}
+                <h3 class="artist-name">{{ artist.name }}</h3>
+                <p class="artist-specialty">{{ artist.bio|truncatewords:15 }}</p>
+                <div class="social-icons">
+                    {% if artist.instagram %}
+                        <a href="{{ artist.instagram }}" target="_blank"><i class="fab fa-instagram"></i></a>
+                    {% endif %}
+                    {% if artist.tiktok %}
+                        <a href="{{ artist.tiktok }}" target="_blank"><i class="fab fa-tiktok"></i></a>
+                    {% endif %}
+                </div>
+                <a href="{% url 'artist_detail' artist.id %}" class="btn btn-outline">View Profile</a>
             </div>
+            {% empty %}
+            <p>No artists added yet. Check back soon!</p>
+            {% endfor %}
         </div>
-    </section>
+    </div>
+</section>
 {% endblock %}
