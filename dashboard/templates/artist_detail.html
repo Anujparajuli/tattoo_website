@@ -15,7 +15,9 @@
         <div class="header-content">
             <h1>{{ artist.name }}</h1>
             <div class="divider"></div>
-            <p>{{ artist.bio|truncatewords:20 }}</p>
+            <!-- <p>{{ artist.bio|truncatewords:20 }}</p> -->
+            <img src="{{ artist.image.url }}" alt="{{ artist.name }}" class="bio-image" />
+
         </div>
     </header>
 
@@ -23,7 +25,7 @@
     <section class="section artist-bio">
         <div class="container">
             <div class="bio-content">
-                <img src="{{ artist.image.url }}" alt="{{ artist.name }}" class="bio-image" />
+                <!-- <img src="{{ artist.image.url }}" alt="{{ artist.name }}" class="bio-image" /> -->
                 <div class="bio-text">
                     <h2>About {{ artist.name }}</h2>
                     <p>{{ artist.bio }}</p>

@@ -145,31 +145,50 @@
         });
 
 
-            document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function () {
             const filterButtons = document.querySelectorAll('.filter-btn');
             const galleryItems = document.querySelectorAll('.gallery-item');
+
+            // Add ARIA role and properties for accessibility
+            filterButtons.forEach(btn => {
+                btn.setAttribute('role', 'button');
+                btn.setAttribute('tabindex', '0');
+                btn.setAttribute('aria-pressed', btn.classList.contains('active') ? 'true' : 'false');
+
+                btn.addEventListener('keydown', e => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        btn.click();
+                    }
+                });
+            });
 
             // Function to show/hide items based on filter
             function filterGallery(filterValue) {
                 galleryItems.forEach(item => {
                     if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
                         item.style.display = 'block';
-                        setTimeout(() => {
-                            item.style.opacity = '1';
-                            item.style.transform = 'scale(1)';
-                        }, 50);
+                        // Force reflow for animation
+                        void item.offsetWidth;
+                        item.classList.add('visible');
+                        item.style.opacity = '1';
+                        item.style.transform = 'scale(1) translateY(0)';
                     } else {
+                        item.classList.remove('visible');
                         item.style.opacity = '0';
-                        item.style.transform = 'scale(0.8)';
+                        item.style.transform = 'scale(0.8) translateY(30px)';
                         setTimeout(() => {
                             item.style.display = 'none';
-                        }, 300);
+                        }, 350);
                     }
                 });
             }
 
             // Set 'All' as default on load
-            document.querySelector("[data-filter='all']").classList.add("active");
+            filterButtons.forEach(btn => btn.classList.remove("active"));
+            const allBtn = document.querySelector("[data-filter='all']");
+            allBtn.classList.add("active");
+            allBtn.setAttribute('aria-pressed', 'true');
             filterGallery('all'); // Show all items initially
 
             // Add event listeners to filter buttons
@@ -177,13 +196,18 @@
                 button.addEventListener("click", () => {
                     const filterValue = button.getAttribute("data-filter");
 
-                    filterButtons.forEach(btn => btn.classList.remove("active"));
+                    filterButtons.forEach(btn => {
+                        btn.classList.remove("active");
+                        btn.setAttribute('aria-pressed', 'false');
+                    });
                     button.classList.add("active");
+                    button.setAttribute('aria-pressed', 'true');
 
                     filterGallery(filterValue);
                 });
             });
         });
+
 
         // =================== VALIDATION SCRIPT for homepage booking=================== 
 

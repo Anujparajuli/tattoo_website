@@ -237,7 +237,7 @@ body {
 
  /* Section Styling */
 .section {
-    padding: 100px 0;
+    /* padding: 100px 0; */
     position: relative;
 }
 
@@ -390,150 +390,320 @@ body {
     }
 }
 
+/* =======================Artist Detailed page======================= */
 
-        /* Signature Styles Section */
-/* Styles Section with Background */
-.styles-section {
-    position: relative;
-    padding: 100px 0;
-    color: var(--white);
-    overflow: hidden;
-    z-index: 1;
-}
 
-.styles-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(rgba(10, 10, 10, 0.85), rgba(10, 10, 10, 0.85)),
-                url('assets/styles-bg.jpg') center/cover no-repeat;
-    z-index: -1;
-}
 
-/* Optional for background video */
-.styles-bg video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -2;
-}
+/* Artist Detail Page - Image on Top */
 
-/* Ensure gradient overlay is above video */
-.styles-bg::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(10, 10, 10, 0.85);
-    z-index: -1;
-}
-
-/* Reuse previous styles for grid and cards */
-.styles-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 35px;
-    padding-bottom: 60px;
-    /* border: 2px solid yellow; DEBUG */
-}
-
-.style-card {
-    background: rgba(26, 26, 26, 0.9);
-    border-radius: 15px;
-    padding: 30px 20px;
-    text-align: center;
+/* Container for bio content: stacked vertically */
+.artist-bio .bio-content {
+    display: flex;
+    flex-direction: column;  /* Stack vertically */
+    align-items: center;
+    gap: 30px;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    background: rgba(26, 26, 26, 0.85);
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(220, 38, 38, 0.3);
     border: 1px solid var(--charcoal);
-    position: relative;
-    overflow: hidden;
-    transform: translateY(30px);
-    opacity: 1;
-    transition: transform 0.4s ease, opacity 0.4s ease;
-    /* border: 2px solid rgb(255, 60, 0); DEBUG */
+    text-align: center;
 }
 
-/* Fade-in effect */
-.style-card.visible {
-    transform: translateY(0);
-    opacity: 1;
+/* Artist image styling */
+.bio-image {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    border: 5px solid var(--gold);
+    object-fit: cover;
+    box-shadow: 0 0 15px var(--gold-glow);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.style-card:hover {
-    transform: translateY(-10px) scale(1.03);
+.bio-image:hover {
     border-color: var(--crimson);
-    box-shadow: 0 12px 25px rgba(220, 38, 38, 0.4);
+    box-shadow: 0 0 25px var(--crimson-glow);
 }
 
-.style-icon {
-    font-size: 3rem;
-    color: var(--gold);
-    margin-bottom: 15px;
-    transition: transform 0.3s ease, color 0.3s ease;
-}
-
-.style-card:hover .style-icon {
-    transform: scale(1.2) rotate(5deg);
-    color: var(--crimson);
-}
-
-.style-name {
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin-bottom: 10px;
+/* Text below the image */
+.bio-text {
     color: var(--white);
 }
 
-.style-description {
+/* Heading about artist */
+.bio-text h2 {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 2.4rem;
+    margin-bottom: 15px;
+    color: var(--gold);
+    letter-spacing: 2px;
+}
+
+/* Artist bio paragraph */
+.bio-text p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--light-gray);
+    margin-bottom: 25px;
+}
+
+/* Social icons container */
+.bio-text .social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Individual social icon links */
+.bio-text .social-icons a {
     color: var(--gray);
-    font-size: 0.95rem;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.4s ease;
+    font-size: 1.8rem;
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
-.style-card:hover .style-description {
-    opacity: 1;
-    transform: translateY(0);
+.bio-text .social-icons a:hover,
+.bio-text .social-icons a:focus {
+    color: var(--gold);
+    transform: scale(1.3);
+    text-shadow: 0 0 8px var(--gold-glow);
+    outline: none;
 }
 
-.style-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.08), transparent);
-    transition: left 0.6s ease;
+/* Back button container */
+.back-button {
+    max-width: 700px;
+    margin: 30px auto 60px;
+    text-align: center;
 }
 
-.style-card:hover::before {
-    left: 100%;
+.back-button .btn {
+    background: var(--crimson);
+    color: var(--white);
+    padding: 12px 40px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 0 8px 20px rgba(220, 38, 38, 0.4);
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.back-button .btn:hover,
+.back-button .btn:focus {
+    background: #b91c1c;
+    transform: translateY(-3px);
+    outline: none;
 }
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
-    .styles-section {
-        padding: 60px 0;
-    }
-    .styles-grid {
+    .artist-bio .bio-content {
+        padding: 30px 15px;
         gap: 25px;
+        max-width: 100%;
     }
-    .style-icon {
-        font-size: 2.5rem;
+
+    .bio-image {
+        width: 150px;
+        height: 150px;
+    }
+
+    .bio-text h2 {
+        font-size: 2rem;
+    }
+
+    .bio-text p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .bio-image {
+        width: 130px;
+        height: 130px;
+    }
+
+    .bio-text h2 {
+        font-size: 1.8rem;
+    }
+
+    .back-button .btn {
+        padding: 10px 30px;
+        font-size: 1rem;
     }
 }
 
 
+
+
+
+
+
+        /* Signature Styles Section */
+/* =======================
+   Premium Styles Section 
+   ======================= */
+
+.styles-section {
+    position: relative;
+    padding: 100px 0 80px;
+    color: var(--white);
+    overflow: hidden;
+    background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+    font-family: 'Poppins', sans-serif;
+    z-index: 1;
+}
+
+.styles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px;
+    padding-bottom: 60px;
+}
+
+/* Card styling */
+.style-card {
+    background: rgba(40, 40, 40, 0.85);
+    border-radius: 20px;
+    padding: 30px 25px 40px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Hover effect for card */
+.style-card:hover {
+    transform: translateY(-15px) scale(1.05);
+    box-shadow: 0 18px 40px rgba(220, 38, 38, 0.6);
+    border: 1px solid var(--crimson);
+}
+
+/* Image styling */
+.style-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    transition: filter 0.3s ease;
+}
+
+/* Slight image zoom on hover */
+.style-card:hover img {
+    filter: brightness(1.1);
+    transform: scale(1.05);
+}
+
+/* Style name */
+.style-card h3 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: var(--gold);
+    letter-spacing: 1.2px;
+    text-shadow: 0 0 8px var(--gold-glow);
+}
+
+/* Description */
+.style-card p {
+    color: var(--light-gray);
+    font-size: 1rem;
+    line-height: 1.5;
+    max-width: 90%;
+    margin: 0 auto;
+    transition: color 0.3s ease;
+}
+
+/* On hover, brighten description text */
+.style-card:hover p {
+    color: var(--white);
+}
+
+/* Animated diagonal shine effect */
+.style-card::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      45deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.12) 50%,
+      transparent 70%
+    );
+    transform: rotate(25deg);
+    transition: all 0.7s ease;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.style-card:hover::before {
+    top: -30%;
+    left: -30%;
+    opacity: 1;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .styles-section {
+        padding: 80px 30px 60px;
+    }
+    .styles-grid {
+        gap: 30px;
+    }
+    .style-card img {
+        height: 180px;
+    }
+    .style-card h3 {
+        font-size: 1.4rem;
+    }
+    .style-card p {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .styles-section {
+        padding: 60px 20px 40px;
+    }
+    .styles-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+    .style-card {
+        padding: 25px 20px 30px;
+    }
+    .style-card img {
+        height: 160px;
+    }
+    .style-card h3 {
+        font-size: 1.25rem;
+    }
+    .style-card p {
+        font-size: 0.9rem;
+    }
+}
+
+
+
         /* Gallery Section */
-.gallery-section {
+/* Gallery Section Container */
+#gallery.section {
     position: relative;
     padding: 100px 0;
     background: var(--primary-black);
     color: var(--white);
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 /* Filter Buttons */
@@ -546,23 +716,35 @@ body {
 }
 
 .filter-btn {
-    padding: 10px 25px;
+    padding: 12px 28px;
     background: transparent;
     border: 2px solid var(--charcoal);
     color: var(--white);
     border-radius: 25px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
+    font-weight: 600;
+    letter-spacing: 0.7px;
     cursor: pointer;
     transition: all 0.3s ease;
+    user-select: none;
+    font-size: 1rem;
+    min-width: 100px;
+    text-align: center;
 }
 
 .filter-btn.active,
-.filter-btn:hover {
+.filter-btn:hover,
+.filter-btn:focus {
     border-color: var(--crimson);
     background: var(--crimson);
     color: var(--white);
-    box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
+    box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4);
+    outline: none;
+}
+
+/* Keyboard focus visible style */
+.filter-btn:focus-visible {
+    outline: 3px solid var(--gold);
+    outline-offset: 2px;
 }
 
 /* Gallery Grid */
@@ -571,22 +753,27 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 25px;
     padding-bottom: 60px;
+    justify-items: center; /* Center items horizontally */
 }
 
 /* Gallery Item */
 .gallery-item {
     position: relative;
-    aspect-ratio: 1;
+    aspect-ratio: 1 / 1;
     background: var(--charcoal);
     border-radius: 15px;
     overflow: hidden;
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    max-width: 320px;  /* Limit size on few or single items */
+    width: 100%;
 }
 
-.gallery-item:hover {
-    transform: scale(1.03);
-    box-shadow: 0 15px 35px rgba(220, 38, 38, 0.3); /* Premium glow effect */
+.gallery-item:hover,
+.gallery-item:focus {
+    transform: scale(1.05);
+    box-shadow: 0 20px 40px rgba(220, 38, 38, 0.5); /* Premium glow effect */
+    outline: none;
 }
 
 /* Image */
@@ -596,9 +783,11 @@ body {
     object-fit: cover;
     border-radius: 15px;
     transition: transform 0.5s ease;
+    display: block;
 }
 
-.gallery-item:hover img {
+.gallery-item:hover img,
+.gallery-item:focus img {
     transform: scale(1.1);
 }
 
@@ -614,22 +803,40 @@ body {
     transform: translateY(0);
 }
 
-/* Mobile Optimization */
+/* Responsive Adjustments */
 @media (max-width: 768px) {
+    #gallery.section {
+        padding: 60px 20px;
+        max-width: 100%;
+    }
+
     .gallery-filters {
         gap: 10px;
     }
 
     .filter-btn {
-        padding: 8px 15px;
+        padding: 10px 20px;
         font-size: 0.9rem;
+        min-width: 80px;
     }
 
     .gallery-grid {
         gap: 15px;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+
+    .gallery-item {
+        max-width: 100%; /* full width on small screens */
     }
 }
 
+@media (max-width: 480px) {
+    .filter-btn {
+        font-size: 0.85rem;
+        padding: 8px 14px;
+        min-width: 70px;
+    }
+}
 
 
 
@@ -1681,8 +1888,7 @@ ul {
             border: 1px solid var(--charcoal);
             transition: all 0.8s ease;
             cursor: default;
-            height: 373px;
-            width: 298px;
+
             }
 
             .service-card:hover {
@@ -1764,7 +1970,7 @@ ul {
     z-index: 2;
     position: relative;
     background-color: var(--primary-black);
-    padding: 80px;
+    /* padding: 80px; */
 }
 
 /* Smooth fade effect */
