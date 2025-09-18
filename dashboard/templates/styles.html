@@ -19,6 +19,7 @@
     </header>
 
   <!-- Styles Section -->
+  <!-- Styles Section -->
   <section class="section styles-section">
     <div class="container">
       <div class="styles-grid">
@@ -27,7 +28,9 @@
           <article class="style-card">
             <img src="{{ style.image.url }}" alt="{{ style.name }}">
             <h3>{{ style.name }}</h3>
-            <p>{{ style.description }}</p>
+
+            <p class="description-text">{{ style.description }}</p>
+            <button class="read-more-btn" onclick="toggleReadMore(this)">Read more</button>
           </article>
         {% empty %}
           <p>No tattoo styles available at the moment.</p>
@@ -36,4 +39,5 @@
       </div>
     </div>
   </section>
+
 {% endblock %}

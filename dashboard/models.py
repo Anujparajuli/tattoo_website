@@ -2,10 +2,14 @@ from django.db import models
 
 # Create your models here.
 
+from django.core.validators import MaxLengthValidator
+
+from django.core.exceptions import ValidationError
+
 
 class Artist(models.Model):
     name = models.CharField(max_length=100)
-    bio = models.TextField()
+    bio = models.TextField(validators=[MaxLengthValidator(600)])  # limit bio to 300 chars
     image = models.ImageField(upload_to='artists/')
     instagram = models.URLField(blank=True, null=True)
     tiktok = models.URLField(blank=True, null=True)
@@ -20,19 +24,30 @@ class Artist(models.Model):
     def __str__(self):
         return self.name
 
+
+
 class TattooStyle(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
     image = models.ImageField(upload_to='style_images/')
     show_on_homepage = models.BooleanField(default=False)
 
+    def clean(self):
+        # Limit description to 50 words
+        word_count = len(self.description.split())
+        if word_count > 50:
+            raise ValidationError("Description cannot exceed 50 words.")
+
     def save(self, *args, **kwargs):
+        self.clean()  # enforce validation
+        # Limit number of styles on homepage
         if self.show_on_homepage and TattooStyle.objects.filter(show_on_homepage=True).exclude(pk=self.pk).count() >= 6:
             raise ValueError("You can only have 6 styles on the homepage.")
         super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
+
 
 class GalleryImage(models.Model):
     CATEGORY_CHOICES = [
