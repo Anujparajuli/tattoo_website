@@ -258,16 +258,54 @@
             e.preventDefault();
         }
         });
+        
+        
+        
+        
+        
+        
+        
+        document.addEventListener("DOMContentLoaded", () => {
+            const cards = document.querySelectorAll(".style-card");
+
+            cards.forEach(card => {
+                const text = card.querySelector(".description-text");
+                const btn = card.querySelector(".read-more-btn");
+
+                // collapsed height = how much fits inside the max-height
+                const collapsedHeight = text.clientHeight;
+
+                // full height = real scroll height of the text
+                const fullHeight = text.scrollHeight;
+
+                // Show button only if text overflows
+                if (fullHeight > collapsedHeight) {
+                    btn.style.display = "inline-block";
+                } else {
+                    btn.style.display = "none";
+                }
+            });
+        });
+
         function toggleReadMore(btn) {
-            const text = btn.previousElementSibling; // <p> element
-            if (text.style.maxHeight && text.style.maxHeight !== "none") {
-                text.style.maxHeight = "4.5em"; // same as CSS
-                btn.textContent = "Read more";
-            } else {
-                text.style.maxHeight = "none";
+            const text = btn.previousElementSibling;
+            text.classList.toggle("expanded");
+
+            if (text.classList.contains("expanded")) {
                 btn.textContent = "Show less";
+            } else {
+                btn.textContent = "Read more";
             }
         }
+
+
+
+
+
+
+
+
+
 
     </script>
     {% block extra_js %}

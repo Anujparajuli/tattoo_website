@@ -19,18 +19,17 @@
 </header>
 
   <!-- Services Section -->
+  <!-- Services Section -->
   <section class="section container services-grid">
     {% for service in services %}
       <div class="service-card">
         <i class="{{ service.icon_class }} service-icon"></i>
         <h3 class="service-title">{{ service.title }}</h3>
-
-        <!-- Description with fixed height -->
-        <p class="description-text">{{ service.description }}</p>
-        <button class="read-more-btn" onclick="toggleReadMore(this)">Read more</button>
+        <p>{{ service.description }}</p>
       </div>
     {% endfor %}
   </section>
+
 
 
 

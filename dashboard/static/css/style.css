@@ -607,9 +607,6 @@ body {
 
 
 
-
-
-        /* Signature Styles Section */
 /* =======================
    Premium Styles Section 
    ======================= */
@@ -641,7 +638,6 @@ body {
     text-align: center;
     position: relative;
     overflow: hidden;
-    
 }
 
 /* Hover effect for card */
@@ -678,18 +674,56 @@ body {
     text-shadow: 0 0 8px var(--gold-glow);
 }
 
-/* Description */
-.style-card p {
+/* Description (collapsed by default) */
+.style-card .description-text {
     color: var(--light-gray);
     font-size: 1rem;
     line-height: 1.5;
     max-width: 90%;
     margin: 0 auto;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease, max-height 0.35s ease;
+    max-height: 6em; /* collapsed height (approx 3-4 lines) */
+    overflow: hidden;
 }
 
+/* Expanded description */
+.style-card .description-text.expanded {
+    max-height: 1000px; /* large enough for full text; keeps transition animatable */
+}
+/* Read More Button - Centered & Premium Theme */
+.read-more-btn {
+    display: block;               /* Make button take only as much width as needed */
+    margin: 15px auto 0 auto;     /* Top margin + auto left/right to center */
+    padding: 8px 18px;
+    background: linear-gradient(135deg, var(--crimson) 0%, #b11226 100%);
+    color: var(--white);
+    border: none;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.35s ease;
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4);
+}
+
+/* Hover effect */
+.read-more-btn:hover {
+    background: linear-gradient(135deg, var(--gold) 0%, #d4af37 100%);
+    color: #000;
+    box-shadow: 0 6px 16px rgba(212, 175, 55, 0.6);
+    transform: translateY(-2px);
+}
+
+/* Active (on click) */
+.read-more-btn:active {
+    transform: scale(0.97);
+}
+
+
+
 /* On hover, brighten description text */
-.style-card:hover p {
+.style-card:hover .description-text {
     color: var(--white);
 }
 
@@ -733,7 +767,7 @@ body {
     .style-card h3 {
         font-size: 1.4rem;
     }
-    .style-card p {
+    .style-card .description-text {
         font-size: 0.95rem;
     }
 }
@@ -755,7 +789,7 @@ body {
     .style-card h3 {
         font-size: 1.25rem;
     }
-    .style-card p {
+    .style-card .description-text {
         font-size: 0.9rem;
     }
 }
