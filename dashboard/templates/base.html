@@ -258,6 +258,17 @@
             e.preventDefault();
         }
         });
+        function toggleReadMore(btn) {
+            const text = btn.previousElementSibling; // <p> element
+            if (text.style.maxHeight && text.style.maxHeight !== "none") {
+                text.style.maxHeight = "4.5em"; // same as CSS
+                btn.textContent = "Read more";
+            } else {
+                text.style.maxHeight = "none";
+                btn.textContent = "Show less";
+            }
+        }
+
     </script>
     {% block extra_js %}
     {% endblock %}

@@ -24,10 +24,14 @@
       <div class="service-card">
         <i class="{{ service.icon_class }} service-icon"></i>
         <h3 class="service-title">{{ service.title }}</h3>
-        <p>{{ service.description }}</p>
+
+        <!-- Description with fixed height -->
+        <p class="description-text">{{ service.description }}</p>
+        <button class="read-more-btn" onclick="toggleReadMore(this)">Read more</button>
       </div>
     {% endfor %}
   </section>
+
 
 
 {% endblock %}
