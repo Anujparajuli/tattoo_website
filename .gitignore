@@ -4,3 +4,7 @@ __pycache__/
 
 # Ignore virtual environment
 venv/
+
+# Ignore database files
+db.sqlite3
+/media/
