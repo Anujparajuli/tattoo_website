@@ -7,6 +7,7 @@
   <script defer src="{% static 'js/booking.js' %}"></script>
 {% endblock %}
 
+
 {% block content %}
 
 <!-- Hero Section -->
@@ -163,6 +164,7 @@
         {{ contact_form.subject }}
       </div>
 
+      
       <div class="form-group">
         <label for="id_message">Message *</label>
         {{ contact_form.message }}
@@ -174,6 +176,38 @@
   </div>
 </section>
 
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const testimonials = document.querySelectorAll(".testimonial");
+    const nextBtn = document.querySelector(".next-btn");
+    const prevBtn = document.querySelector(".prev-btn");
+    let index = 0;
+
+    function showTestimonial(i) {
+        testimonials.forEach((t, n) => {
+            t.classList.toggle("active", n === i);
+        });
+    }
+
+    // Next button
+    nextBtn.addEventListener("click", () => {
+        index = (index + 1) % testimonials.length;
+        showTestimonial(index);
+    });
+
+    // Previous button
+    prevBtn.addEventListener("click", () => {
+        index = (index - 1 + testimonials.length) % testimonials.length;
+        showTestimonial(index);
+    });
+
+    // Auto rotate every 5 seconds
+    setInterval(() => {
+        index = (index + 1) % testimonials.length;
+        showTestimonial(index);
+    }, 5000);
+});
+</script>
 
 
 {% endblock %}

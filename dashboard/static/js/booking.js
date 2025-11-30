@@ -1,20 +1,21 @@
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('bookingForm');
-  const successMessage = document.getElementById('successMessage');
   const termsAccepted = document.getElementById('termsAccepted');
   const modal = document.getElementById("termsModal");
   const closeBtn = document.getElementById("closeTerms");
   const agreeCheckbox = document.getElementById("agreeCheckbox");
   const acceptBtn = document.getElementById("acceptBtn");
 
+  // Success Popup
+  const successPopup = document.getElementById('successPopup');
+  const closePopup = document.getElementById('closePopup');
+  const okBtn = document.getElementById('okBtn');
+
   let isSubmitting = false; // Flag to prevent double submission
 
-  form.addEventListener('submit', function (e) {
-    if (isSubmitting) {
-      // Already submitting, let the form submit naturally
-      return;
-    }
+  form.addEventListener('submit', function(e) {
     e.preventDefault();
+    if (isSubmitting) return;
 
     // Clear previous error messages
     const errorMessages = form.querySelectorAll('.error-message');
@@ -37,13 +38,13 @@ document.addEventListener('DOMContentLoaded', () => {
       valid = false;
     }
 
-    // Validate Description
-    if (!form.description.value.trim()) {
-      setError(form.description, 'Please provide a tattoo description.');
+    // Validate Phone
+    if (!form.phone.value.trim()) {
+      setError(form.phone, 'Please enter your phone number.');
       valid = false;
     }
 
-    if (!valid) return; // Stop if validation fails
+    if (!valid) return;
 
     // Check if terms accepted
     if (termsAccepted.value !== "true") {
@@ -52,17 +53,48 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Show success message and disable submit button
-    successMessage.style.display = 'block';
-    this.querySelector('button[type="submit"]').disabled = true;
-
-    // Set submitting flag
+    // Submit form via AJAX
+    const formData = new FormData(form);
     isSubmitting = true;
 
-    // Submit form after short delay so user can see success message
-    setTimeout(() => {
-      form.submit();
-    }, 1500);
+    fetch(form.action || window.location.href, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      isSubmitting = false;
+      if (data.success) {
+        // Show popup
+        successPopup.style.display = 'flex';
+        // Reset form
+        form.reset();
+        const fileInput = document.getElementById('reference');
+        if (fileInput) fileInput.value = '';
+        // Reset terms
+        termsAccepted.value = "false";
+        agreeCheckbox.checked = false;
+        acceptBtn.disabled = true;
+      } else if (data.errors) {
+        // Display field errors
+        Object.keys(data.errors).forEach(field => {
+          const fieldEl = document.getElementById('id_' + field);
+          if (fieldEl) {
+            let errorEl = fieldEl.parentElement.querySelector('.error-message');
+            if (errorEl) {
+              errorEl.textContent = data.errors[field][0];
+            }
+          }
+        });
+      }
+    })
+    .catch(err => {
+      console.error('Error submitting form:', err);
+      isSubmitting = false;
+    });
   });
 
   function setError(input, message) {
@@ -74,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   }
 
-  // Modal controls
+  // Terms Modal Controls
   closeBtn.onclick = () => {
     modal.style.display = "none";
     document.body.style.overflow = 'auto';
@@ -94,22 +126,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Enable/disable Accept button based on checkbox
   agreeCheckbox.addEventListener('change', () => {
     acceptBtn.disabled = !agreeCheckbox.checked;
     acceptBtn.classList.toggle("enabled", agreeCheckbox.checked);
   });
 
   acceptBtn.onclick = () => {
-    // Mark terms as accepted
     termsAccepted.value = "true";
-
-    // Close modal
     modal.style.display = "none";
     document.body.style.overflow = 'auto';
-
-    // Directly submit form (skip validation because already done)
-    isSubmitting = true;
-    form.submit();
   };
+
+  // Success Popup Controls
+  closePopup.addEventListener('click', () => {
+    successPopup.style.display = 'none';
+  });
+
+  okBtn.addEventListener('click', () => {
+    successPopup.style.display = 'none';
+  });
 });

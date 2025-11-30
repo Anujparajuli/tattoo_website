@@ -4,61 +4,69 @@
 {% block title %}Book Your Session – Inkspire Studio{% endblock %}
 
 {% block content %}
+
 <!-- Page Header -->
 <header class="page-header-new">
   <div class="header-bg"></div>
   <div class="header-content">
     <h1>Book Your Session</h1>
     <div class="divider"></div>
-    <p>Ready to get started? Fill out the form below and we'll get back to you within 24 hours to schedule your consultation.</p>
+    <p>Ready to get started? Fill out the form below and we'll get back to you within 24 hours.</p>
   </div>
 </header>
 
-<!-- Booking Form Section -->
 <section class="section">
   <div class="container">
-    <form class="booking-form" id="bookingForm" method="post" enctype="multipart/form-data" novalidate>
+
+    <form class="booking-form" id="bookingForm" method="post" enctype="multipart/form-data">
       {% csrf_token %}
 
-      <div class="form-group">
-        <label for="name">Full Name *</label>
-        <input type="text" id="name" name="name" required />
-        <small class="error-message"></small>
+      <!-- Non-field errors -->
+      <div class="form-error" style="color: red; margin-bottom: 15px;">
+        {{ form.non_field_errors }}
       </div>
 
+      <!-- Full Name -->
       <div class="form-group">
-        <label for="email">Email Address *</label>
-        <input type="email" id="email" name="email" required />
-        <small class="error-message"></small>
+        <label for="id_name">Full Name *</label>
+        {{ form.name }}
+        <small class="error-message" style="color:red;"></small>
       </div>
 
+      <!-- Email -->
       <div class="form-group">
-        <label for="phone">Phone Number</label>
-        <input type="tel" id="phone" name="phone" />
+        <label for="id_email">Email Address *</label>
+        {{ form.email }}
+        <small class="error-message" style="color:red;"></small>
       </div>
 
+      <!-- Phone -->
       <div class="form-group">
-        <label for="artist">Preferred Artist</label>
-        <select id="artist" name="artist">
-          <option value="">No Preference</option>
-          <option value="sarah">Sarah Chen</option>
-          <option value="marcus">Marcus Rodriguez</option>
-          <option value="yuki">Yuki Tanaka</option>
-          <option value="alex">Alex Morgan</option>
-        </select>
+        <label for="id_phone">Phone Number *</label>
+        {{ form.phone }}
+        <small class="error-message" style="color:red;"></small>
       </div>
 
+      <!-- Artist -->
       <div class="form-group">
-        <label for="placement">Tattoo Placement</label>
-        <input type="text" id="placement" name="placement" placeholder="e.g., Upper arm, back, leg" />
+        <label for="id_artist">Preferred Artist</label>
+        {{ form.artist }}
       </div>
 
+      <!-- Placement -->
       <div class="form-group">
-        <label for="description">Tattoo Description *</label>
-        <textarea id="description" name="description" required placeholder="Please describe your tattoo idea in detail..."></textarea>
-        <small class="error-message"></small>
+        <label for="id_placement">Tattoo Placement</label>
+        {{ form.placement }}
       </div>
 
+      <!-- Description -->
+      <div class="form-group">
+        <label for="id_description">Tattoo Description</label>
+        {{ form.description }}
+        <small class="error-message" style="color:red;"></small>
+      </div>
+
+      <!-- Reference Images -->
       <div class="form-group">
         <label for="reference">Upload Reference Images</label>
         <div class="file-input-wrapper">
@@ -69,62 +77,137 @@
         </div>
       </div>
 
+      <!-- Date -->
       <div class="form-group">
-        <label for="date">Preferred Date</label>
-        <input type="date" id="date" name="date" />
+        <label for="id_date">Preferred Date</label>
+        {{ form.date }}
       </div>
 
-      <!-- ✅ Added name attribute so Django receives it -->
-      <input type="hidden" id="termsAccepted" name="termsAccepted" value="false" />
+      <!-- Hidden terms field -->
+      <input type="hidden" id="termsAccepted" name="termsAccepted" value="false">
 
-      <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
+      <button type="submit" class="btn btn-primary" style="width:100%; margin-top:20px;">
         Reserve Your Ink
       </button>
     </form>
 
-    <!-- {% if success %}
-      <div style="margin-top:30px; color: var(--gold); font-weight:600; text-align:center;">
-        Thank you! Your booking request has been received. We'll contact you soon.
-      </div>
-    {% endif %} -->
   </div>
 </section>
 
-<!-- Terms & Conditions Modal -->
-<div id="termsModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc">
+<!-- Terms Modal -->
+<div id="termsModal" class="modal" role="dialog" aria-modal="true">
   <div class="modal-content">
-    <span class="close-btn" id="closeTerms" aria-label="Close Terms & Conditions">&times;</span>
-    <h2 id="modalTitle" style="color: var(--gold); text-align:center; margin-top: 0;">Terms and Conditions</h2>
-    <div class="modal-text" id="modalDesc">
-      <p><strong>Welcome to Inkspire Studio.</strong> Before booking your tattoo session with us, please read these Terms and Conditions carefully. Your booking indicates acceptance of these terms.</p>
-      <p><strong>1. Consultations & Design</strong><br>
-        We provide a consultation to discuss your tattoo idea...</p>
-      <p><strong>2. Health & Safety</strong><br>
-        Please disclose any medical conditions or allergies before your session...</p>
-      <p><strong>3. Cancellations & Rescheduling</strong><br>
-        Please provide at least 48 hours' notice...</p>
-      <p><strong>4. Deposits & Payments</strong><br>
-        A non-refundable deposit is required...</p>
-      <p><strong>5. Aftercare</strong><br>
-        Proper aftercare is essential...</p>
-      <p><strong>6. Liability</strong><br>
-        Inkspire Studio is not liable...</p>
-      <p><strong>7. Intellectual Property</strong><br>
-        Tattoo designs created for you...</p>
-      <p><strong>8. Age Restrictions</strong><br>
-        Clients must be at least 18 years old...</p>
+    <span class="close-btn" id="closeTerms">&times;</span>
+    <h2 style="color: var(--gold); text-align:center;">Terms and Conditions</h2>
+    <div class="modal-text">
+      <p><strong>Welcome to Inkspire Studio.</strong> Please read these terms...</p>
+      <p><strong>1. Consultations & Design</strong> ...</p>
+      <p><strong>2. Health & Safety</strong> ...</p>
+      <p><strong>3. Cancellations & Rescheduling</strong> ...</p>
+      <p><strong>4. Deposits & Payments</strong> ...</p>
+      <p><strong>5. Aftercare</strong> ...</p>
+      <p><strong>6. Liability</strong> ...</p>
+      <p><strong>7. Intellectual Property</strong> ...</p>
+      <p><strong>8. Age Restrictions</strong> ...</p>
     </div>
-
     <label class="agree-section">
-      <input type="checkbox" id="agreeCheckbox" />
-      I have read and agree to the Terms and Conditions.
+      <input type="checkbox" id="agreeCheckbox"> I agree to the Terms & Conditions.
     </label>
-
     <button id="acceptBtn" class="btn-accept" disabled>Accept</button>
   </div>
 </div>
+
+<!-- Success Popup -->
+<div id="successPopup" class="success-popup">
+  <div class="popup-content">
+    <span id="closePopup" class="close-popup">&times;</span>
+    <h3>Booking Submitted!</h3>
+    <p>Your session request has been received. We will contact you soon.</p>
+    <button id="okBtn" class="btn-popup">OK</button>
+  </div>
+</div>
+
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'js/booking.js' %}"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const form = document.getElementById('bookingForm');
+  const modal = document.getElementById("termsModal");
+  const agreeCheckbox = document.getElementById("agreeCheckbox");
+  const acceptBtn = document.getElementById("acceptBtn");
+  const termsAccepted = document.getElementById("termsAccepted");
+
+  const successPopup = document.getElementById('successPopup');
+  const closePopup = document.getElementById('closePopup');
+  const okBtn = document.getElementById('okBtn');
+
+  // Terms modal
+  acceptBtn.addEventListener('click', () => {
+    termsAccepted.value = "true";
+    modal.style.display = "none";
+    document.body.style.overflow = 'auto';
+  });
+  agreeCheckbox.addEventListener('change', () => acceptBtn.disabled = !agreeCheckbox.checked);
+  document.getElementById("closeTerms").addEventListener('click', () => {
+    modal.style.display = "none"; document.body.style.overflow = 'auto';
+  });
+
+  window.addEventListener("click", e => {
+    if(e.target === modal){ modal.style.display = "none"; document.body.style.overflow = 'auto'; }
+  });
+
+  window.addEventListener("keydown", e => {
+    if(e.key === "Escape" && modal.style.display === "flex"){
+      modal.style.display = "none"; document.body.style.overflow = 'auto';
+    }
+  });
+
+  // Success popup close
+  closePopup.addEventListener('click', () => successPopup.style.display = 'none');
+  okBtn.addEventListener('click', () => successPopup.style.display = 'none');
+
+  // AJAX form submit
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Validate terms
+    if(termsAccepted.value !== "true"){
+      modal.style.display = "flex";
+      document.body.style.overflow = 'hidden';
+      return;
+    }
+
+    const formData = new FormData(form);
+
+    fetch("", {
+      method: "POST",
+      headers: {"X-Requested-With":"XMLHttpRequest"},
+      body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+      // Clear previous errors
+      document.querySelectorAll('.error-message').forEach(el => el.innerText = '');
+
+      if(data.success){
+        successPopup.style.display = 'flex';
+        form.reset();
+        const fileInput = document.getElementById('reference');
+        if(fileInput) fileInput.value = '';
+        termsAccepted.value = "false";
+        agreeCheckbox.checked = false;
+        acceptBtn.disabled = true;
+      } else if(data.errors){
+        for(const field in data.errors){
+          const errorEl = document.querySelector(`#id_${field} ~ .error-message`);
+          if(errorEl) errorEl.innerText = data.errors[field][0];
+        }
+      }
+    })
+    .catch(err => console.error(err));
+  });
+
+});
+</script>
 {% endblock %}
