@@ -12,10 +12,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-default-key')
 
 # DEBUG: False for production, can be True locally
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 # Allowed hosts for deployment
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost').split(',')
+# Add your Render URL and localhost for testing
+ALLOWED_HOSTS = os.environ.get(
+    'ALLOWED_HOSTS',
+    'localhost,127.0.0.1,tattoo-website-buc3.onrender.com'
+).split(',')
 
 # Application definition
 INSTALLED_APPS = [
