@@ -1,20 +1,21 @@
+"""
+Django settings for tattoo_admin project.
+"""
+
 import os
 from pathlib import Path
 
+# Build paths inside the project
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-default-key')
 
-# DEBUG: False in production
+# DEBUG: False for production, can be True locally
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-# Allowed hosts
-ALLOWED_HOSTS = [
-    'tattoo-website-buc3.onrender.com',  # your Render URL
-    'localhost',
-    '127.0.0.1',
-]
+# Allowed hosts for deployment
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost').split(',')
 
 # Application definition
 INSTALLED_APPS = [
@@ -83,8 +84,11 @@ USE_TZ = True
 
 # Static files
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'dashboard/static')]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # for collectstatic
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'dashboard/static'),
+]
+# Add STATIC_ROOT for production collectstatic
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Media files
 MEDIA_URL = '/media/'
