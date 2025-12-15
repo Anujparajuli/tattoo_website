@@ -42,6 +42,10 @@ A Django-based web application for managing a tattoo studio, including artist pr
 
 
 
+Live Preview At : https://loading1234.pythonanywhere.com/
+
+
+
 
 
 
